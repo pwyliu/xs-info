@@ -1,4 +1,35 @@
 from flask import Flask
-app = Flask(__name__)
+import os
+import sys
+
+
+def configure_app(app, conf_filename='conf.py', secret_filename='sekrit.key'):
+    """
+    http://flask.pocoo.org/snippets/104/
+    """
+
+    conf_filename = os.path.join(app.instance_path, conf_filename)
+    secret_filename = os.path.join(app.instance_path, secret_filename)
+
+    try:
+        app.config.from_pyfile(conf_filename)
+    except IOError:
+        print 'Error: No configuration file. Create it with:'
+        if not os.path.isdir(os.path.dirname(conf_filename)):
+            print 'mkdir -p {}'.format(os.path.dirname(conf_filename))
+        print 'cp support/conf.py.example {}'.format(conf_filename)
+        print '\nConfigure as needed.\n'
+        sys.exit(1)
+
+    try:
+        app.config['SECRET_KEY'] = open(secret_filename, 'rb').read()
+    except IOError:
+        print 'Error: No secret key. Create it with:'
+        print 'head -c 64 /dev/urandom > {}\n'.format(secret_filename)
+        sys.exit(1)
+
+# init app
+app = Flask(__name__, instance_relative_config=True)
+configure_app(app)
 
 import xsinfo.views

@@ -7,7 +7,6 @@
 *.egg
 *.egg-info
 *.mo
-*.conf
 .env
 .meteor
 .installed.cfg
@@ -17,7 +16,7 @@
 .project
 .pydevproject
 venv
-dist
+instance
 build
 eggs
 parts
