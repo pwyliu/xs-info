@@ -3,7 +3,7 @@ import os
 import sys
 
 
-def configure_app(app, conf_filename='conf.py', secret_filename='sekrit.key'):
+def configure_app(app, conf_filename='conf.py', secret_filename='app.key'):
     """
     http://flask.pocoo.org/snippets/104/
     """
